@@ -2,8 +2,8 @@
 
 1. Text to Speech - Done - uv run python .\text_to_speech.py console
 2. Speech to Text - Done - uv run python .\speech_to_text.py console
-3. End of Turn
-4. BAML replacing llm node
+3. End of Turn - Done - uv run python .\end_of_turn.py console
+4. BAML replacing llm node - Done - uv run python .\baml_llm_node.py console
 5. Chat management
 6. Question context
 7. Global state

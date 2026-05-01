@@ -7,4 +7,35 @@
 5. Chat management
 6. Question context
 7. Global state
+8. Store transcript locally
+9. Store transcript in assessment service
 
+## Commands
+
+1.Install the cli 
+
+`brew install livekit-cli`
+
+2.Add project 
+`lk cloud auth`
+
+
+3.Add secrets in .env 
+
+4.Deploy 
+  `cd agent-gate && lk agent create`
+
+5.Update a already deployed agent
+  `lk agent deploy`
+
+6.Run 
+`uv run python .\conversation_flow.py console`
+
+7.Dev server
+`uv run python .\conversation_flow.py dev`
+
+8. Realtime logs
+`lk agent logs`
+
+9. BAML client generate
+`uv run baml-cli generate`

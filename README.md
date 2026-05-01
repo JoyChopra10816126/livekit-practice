@@ -1,7 +1,7 @@
 # livekit-practice
 
-1. Text to Speech
-2. Speech to Text
+1. Text to Speech - Done - uv run python .\text_to_speech.py console
+2. Speech to Text - Done - uv run python .\speech_to_text.py console
 3. End of Turn
 4. BAML replacing llm node
 5. Chat management

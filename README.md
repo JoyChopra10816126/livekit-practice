@@ -6,7 +6,7 @@
 4. BAML replacing llm node - uv run python .\baml_llm_node.py console
 5. Global state - uv run python .\global_state.py console
 6. Store transcript - uv run python .\store_transcript.py console
-7. Call tool
+7. Call tool - uv run python .\call_tool.py console
 8. Question loop
 
 ## Commands

@@ -37,12 +37,29 @@ def get_checks(checks: typing.Dict[CheckName, Check]) -> typing.List[Check]:
 def all_succeeded(checks: typing.Dict[CheckName, Check]) -> bool:
     return all(check.status == "succeeded" for check in get_checks(checks))
 # #########################################################################
-# Generated enums (0)
+# Generated enums (3)
 # #########################################################################
 
+class DiagnosticGoalMetStatus(str, Enum):
+    YES = "YES"
+    NO = "NO"
+
+class ON_TOPIC_STATUS(str, Enum):
+    ON_TOPIC = "ON_TOPIC"
+    OFF_TOPIC = "OFF_TOPIC"
+
+class TURN_DECISION(str, Enum):
+    REPEAT_QUESTION = "REPEAT_QUESTION"
+    PARAPHRASE_QUESTION = "PARAPHRASE_QUESTION"
+    ANALYSE_RESPONSE = "ANALYSE_RESPONSE"
+
 # #########################################################################
-# Generated classes (2)
+# Generated classes (5)
 # #########################################################################
+
+class ExtractedField(BaseModel):
+    field_name: str = Field(description='The name of the field')
+    field_value: str = Field(description='The value of the field')
 
 class Response(BaseModel):
     grammatical_errors_present: bool = Field(description='True if there are any grammatical errors in the transcript')
@@ -54,6 +71,17 @@ class Response2(BaseModel):
     is_answer_satisfactory: bool = Field(description='Say whether the answer is correct or not')
     evidence_for_satisfaction: str = Field(description='Provide evidence that user answer is satisfactory')
     probe_question: str = Field(description='Provide a question for the user if answer is not satisfactory to probe them further. Only make this field non-empty if the answer is not satisfactory.')
+
+class Response3(BaseModel):
+    is_diagnostic_goal_met: DiagnosticGoalMetStatus = Field(description='True if the user\'s answer meets the diagnostic goal for the current question')
+    extracted_fields: typing.List["ExtractedField"] = Field(description='Array of all fields that need to be extracted from the user\'s answer. If a field is not found, put a null value for it and add it to the list')
+    diagnostic_gap: str = Field(description='If diagnostic goal is not met, identify what is missing?')
+    probe_question: str = Field(description='Based on the diagnostic gap, create a new question that needs to be asked to user.')
+
+class Response4(BaseModel):
+    on_topic_status: ON_TOPIC_STATUS = Field(description='Whether the user\'s answer is on topic or not')
+    turn_decision: TURN_DECISION = Field(description='Whether to repeat the question, rephrase the question, or analyse the response')
+    rephrased_question: str = Field(description='Rephrased version of the question based on user request')
 
 # #########################################################################
 # Generated type aliases (0)

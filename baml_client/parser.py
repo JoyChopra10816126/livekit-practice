@@ -35,6 +35,18 @@ class LlmResponseParser:
         __result__ = self.__options.merge_options(baml_options).parse_response(function_name="GetResponse2", llm_response=llm_response, mode="request")
         return typing.cast(types.Response2, __result__)
 
+    def GetResponse3(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Response3:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="GetResponse3", llm_response=llm_response, mode="request")
+        return typing.cast(types.Response3, __result__)
+
+    def GetResponse4(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.Response4:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="GetResponse4", llm_response=llm_response, mode="request")
+        return typing.cast(types.Response4, __result__)
+
     
 
 class LlmStreamParser:
@@ -54,5 +66,17 @@ class LlmStreamParser:
     ) -> stream_types.Response2:
         __result__ = self.__options.merge_options(baml_options).parse_response(function_name="GetResponse2", llm_response=llm_response, mode="stream")
         return typing.cast(stream_types.Response2, __result__)
+
+    def GetResponse3(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Response3:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="GetResponse3", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Response3, __result__)
+
+    def GetResponse4(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.Response4:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="GetResponse4", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.Response4, __result__)
 
     

@@ -23,8 +23,12 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
 # #########################################################################
-# Generated classes (2)
+# Generated classes (5)
 # #########################################################################
+
+class ExtractedField(BaseModel):
+    field_name: typing.Optional[str] = Field(default=None, description='The name of the field')
+    field_value: typing.Optional[str] = Field(default=None, description='The value of the field')
 
 class Response(BaseModel):
     grammatical_errors_present: typing.Optional[bool] = Field(default=None, description='True if there are any grammatical errors in the transcript')
@@ -36,6 +40,17 @@ class Response2(BaseModel):
     is_answer_satisfactory: typing.Optional[bool] = Field(default=None, description='Say whether the answer is correct or not')
     evidence_for_satisfaction: typing.Optional[str] = Field(default=None, description='Provide evidence that user answer is satisfactory')
     probe_question: typing.Optional[str] = Field(default=None, description='Provide a question for the user if answer is not satisfactory to probe them further. Only make this field non-empty if the answer is not satisfactory.')
+
+class Response3(BaseModel):
+    is_diagnostic_goal_met: typing.Optional[types.DiagnosticGoalMetStatus] = Field(default=None, description='True if the user\'s answer meets the diagnostic goal for the current question')
+    extracted_fields: typing.List["ExtractedField"] = Field(description='Array of all fields that need to be extracted from the user\'s answer. If a field is not found, put a null value for it and add it to the list')
+    diagnostic_gap: typing.Optional[str] = Field(default=None, description='If diagnostic goal is not met, identify what is missing?')
+    probe_question: typing.Optional[str] = Field(default=None, description='Based on the diagnostic gap, create a new question that needs to be asked to user.')
+
+class Response4(BaseModel):
+    on_topic_status: typing.Optional[types.ON_TOPIC_STATUS] = Field(default=None, description='Whether the user\'s answer is on topic or not')
+    turn_decision: typing.Optional[types.TURN_DECISION] = Field(default=None, description='Whether to repeat the question, rephrase the question, or analyse the response')
+    rephrased_question: typing.Optional[str] = Field(default=None, description='Rephrased version of the question based on user request')
 
 # #########################################################################
 # Generated type aliases (0)

@@ -122,6 +122,34 @@ class BamlSyncClient:
                 "chat_history": chat_history,
             })
             return typing.cast(types.Response2, __result__.cast_to(types, types, stream_types, False, __runtime__))
+    def GetResponse3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> types.Response3:
+        # Check if on_tick is provided
+        if 'on_tick' in baml_options:
+            __stream__ = self.stream.GetResponse3(chat_history=chat_history,diagnostic_goal=diagnostic_goal,expected_fields=expected_fields,current_question=current_question,
+                baml_options=baml_options)
+            return __stream__.get_final_response()
+        else:
+            # Original non-streaming code
+            __result__ = self.__options.merge_options(baml_options).call_function_sync(function_name="GetResponse3", args={
+                "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+            })
+            return typing.cast(types.Response3, __result__.cast_to(types, types, stream_types, False, __runtime__))
+    def GetResponse4(self, chat_history: str,current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> types.Response4:
+        # Check if on_tick is provided
+        if 'on_tick' in baml_options:
+            __stream__ = self.stream.GetResponse4(chat_history=chat_history,current_question=current_question,
+                baml_options=baml_options)
+            return __stream__.get_final_response()
+        else:
+            # Original non-streaming code
+            __result__ = self.__options.merge_options(baml_options).call_function_sync(function_name="GetResponse4", args={
+                "chat_history": chat_history,"current_question": current_question,
+            })
+            return typing.cast(types.Response4, __result__.cast_to(types, types, stream_types, False, __runtime__))
     
 
 
@@ -155,6 +183,30 @@ class BamlStreamClient:
           lambda x: typing.cast(types.Response2, x.cast_to(types, types, stream_types, False, __runtime__)),
           __ctx__,
         )
+    def GetResponse3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlSyncStream[stream_types.Response3, types.Response3]:
+        __ctx__, __result__ = self.__options.merge_options(baml_options).create_sync_stream(function_name="GetResponse3", args={
+            "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+        })
+        return baml_py.BamlSyncStream[stream_types.Response3, types.Response3](
+          __result__,
+          lambda x: typing.cast(stream_types.Response3, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.Response3, x.cast_to(types, types, stream_types, False, __runtime__)),
+          __ctx__,
+        )
+    def GetResponse4(self, chat_history: str,current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlSyncStream[stream_types.Response4, types.Response4]:
+        __ctx__, __result__ = self.__options.merge_options(baml_options).create_sync_stream(function_name="GetResponse4", args={
+            "chat_history": chat_history,"current_question": current_question,
+        })
+        return baml_py.BamlSyncStream[stream_types.Response4, types.Response4](
+          __result__,
+          lambda x: typing.cast(stream_types.Response4, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.Response4, x.cast_to(types, types, stream_types, False, __runtime__)),
+          __ctx__,
+        )
     
 
 class BamlHttpRequestClient:
@@ -177,6 +229,20 @@ class BamlHttpRequestClient:
             "chat_history": chat_history,
         }, mode="request")
         return __result__
+    def GetResponse3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = self.__options.merge_options(baml_options).create_http_request_sync(function_name="GetResponse3", args={
+            "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+        }, mode="request")
+        return __result__
+    def GetResponse4(self, chat_history: str,current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = self.__options.merge_options(baml_options).create_http_request_sync(function_name="GetResponse4", args={
+            "chat_history": chat_history,"current_question": current_question,
+        }, mode="request")
+        return __result__
     
 
 class BamlHttpStreamRequestClient:
@@ -197,6 +263,20 @@ class BamlHttpStreamRequestClient:
     ) -> baml_py.baml_py.HTTPRequest:
         __result__ = self.__options.merge_options(baml_options).create_http_request_sync(function_name="GetResponse2", args={
             "chat_history": chat_history,
+        }, mode="stream")
+        return __result__
+    def GetResponse3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = self.__options.merge_options(baml_options).create_http_request_sync(function_name="GetResponse3", args={
+            "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+        }, mode="stream")
+        return __result__
+    def GetResponse4(self, chat_history: str,current_question: int,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = self.__options.merge_options(baml_options).create_http_request_sync(function_name="GetResponse4", args={
+            "chat_history": chat_history,"current_question": current_question,
         }, mode="stream")
         return __result__
     

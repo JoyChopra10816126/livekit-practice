@@ -16,11 +16,26 @@ from . import stream_types
 
 type_map = {
 
+    "types.ExtractedField": types.ExtractedField,
+    "stream_types.ExtractedField": stream_types.ExtractedField,
+
     "types.Response": types.Response,
     "stream_types.Response": stream_types.Response,
 
     "types.Response2": types.Response2,
     "stream_types.Response2": stream_types.Response2,
 
+    "types.Response3": types.Response3,
+    "stream_types.Response3": stream_types.Response3,
+
+    "types.Response4": types.Response4,
+    "stream_types.Response4": stream_types.Response4,
+
+
+    "types.DiagnosticGoalMetStatus": types.DiagnosticGoalMetStatus,
+
+    "types.ON_TOPIC_STATUS": types.ON_TOPIC_STATUS,
+
+    "types.TURN_DECISION": types.TURN_DECISION,
 
 }

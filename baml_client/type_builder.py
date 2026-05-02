@@ -20,7 +20,7 @@ from .globals import DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIM
 class TypeBuilder(type_builder.TypeBuilder):
     def __init__(self):
         super().__init__(classes=set(
-          ["Response",]
+          ["Response","Response2",]
         ), enums=set(
           []
         ), runtime=DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME)
@@ -31,12 +31,16 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
     # #########################################################################
-    # Generated classes 1
+    # Generated classes 2
     # #########################################################################
 
     @property
     def Response(self) -> "ResponseViewer":
         return ResponseViewer(self)
+
+    @property
+    def Response2(self) -> "Response2Viewer":
+        return Response2Viewer(self)
 
 
 
@@ -46,7 +50,7 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
 # #########################################################################
-# Generated classes 1
+# Generated classes 2
 # #########################################################################
 
 class ResponseAst:
@@ -92,6 +96,57 @@ class ResponseProperties:
     @property
     def explanation_for_student(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("explanation_for_student"))
+    
+    
+
+
+class Response2Ast:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("Response2")
+        self._properties: typing.Set[str] = set([  "acknowledgement",  "is_answer_satisfactory",  "evidence_for_satisfaction",  "probe_question",  ])
+        self._props = Response2Properties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "Response2Properties":
+        return self._props
+
+
+class Response2Viewer(Response2Ast):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class Response2Properties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def acknowledgement(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("acknowledgement"))
+    
+    @property
+    def is_answer_satisfactory(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("is_answer_satisfactory"))
+    
+    @property
+    def evidence_for_satisfaction(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("evidence_for_satisfaction"))
+    
+    @property
+    def probe_question(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("probe_question"))
     
     
 

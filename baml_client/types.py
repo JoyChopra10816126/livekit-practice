@@ -41,13 +41,19 @@ def all_succeeded(checks: typing.Dict[CheckName, Check]) -> bool:
 # #########################################################################
 
 # #########################################################################
-# Generated classes (1)
+# Generated classes (2)
 # #########################################################################
 
 class Response(BaseModel):
     grammatical_errors_present: bool = Field(description='True if there are any grammatical errors in the transcript')
     corrected_transcript: str = Field(description='The corrected transcript of the user\'s speech')
     explanation_for_student: str = Field(description='The explanation for the student in a conversational tone')
+
+class Response2(BaseModel):
+    acknowledgement: str = Field(description='Say a small acknowledgement for the users input')
+    is_answer_satisfactory: bool = Field(description='Say whether the answer is correct or not')
+    evidence_for_satisfaction: str = Field(description='Provide evidence that user answer is satisfactory')
+    probe_question: str = Field(description='Provide a question for the user if answer is not satisfactory to probe them further. Only make this field non-empty if the answer is not satisfactory.')
 
 # #########################################################################
 # Generated type aliases (0)

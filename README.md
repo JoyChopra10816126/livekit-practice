@@ -4,11 +4,9 @@
 2. Speech to Text - Done - uv run python .\speech_to_text.py console
 3. End of Turn - Done - uv run python .\end_of_turn.py console
 4. BAML replacing llm node - Done - uv run python .\baml_llm_node.py console
-5. Chat management
-6. Question context
-7. Global state
-8. Store transcript locally
-9. Store transcript in assessment service
+5. Global state
+6. Store transcript locally
+7. Store transcript in assessment service
 
 ## Commands
 

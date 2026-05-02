@@ -46,6 +46,7 @@ class Response3(BaseModel):
     extracted_fields: typing.List["ExtractedField"] = Field(description='Array of all fields that need to be extracted from the user\'s answer. If a field is not found, put a null value for it and add it to the list')
     diagnostic_gap: typing.Optional[str] = Field(default=None, description='If diagnostic goal is not met, identify what is missing?')
     probe_question: typing.Optional[str] = Field(default=None, description='Based on the diagnostic gap, create a new question that needs to be asked to user.')
+    acknowledgement: typing.Optional[str] = Field(default=None, description='Acknowledgement for the user')
 
 class Response4(BaseModel):
     on_topic_status: typing.Optional[types.ON_TOPIC_STATUS] = Field(default=None, description='Whether the user\'s answer is on topic or not')

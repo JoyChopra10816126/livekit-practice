@@ -352,7 +352,7 @@ class Response3Ast:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb # type: ignore (we know how to use this private attribute)
         self._bldr = _tb.class_("Response3")
-        self._properties: typing.Set[str] = set([  "is_diagnostic_goal_met",  "extracted_fields",  "diagnostic_gap",  "probe_question",  ])
+        self._properties: typing.Set[str] = set([  "is_diagnostic_goal_met",  "extracted_fields",  "diagnostic_gap",  "probe_question",  "acknowledgement",  ])
         self._props = Response3Properties(self._bldr, self._properties)
 
     def type(self) -> baml_py.FieldType:
@@ -395,6 +395,10 @@ class Response3Properties:
     @property
     def probe_question(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("probe_question"))
+    
+    @property
+    def acknowledgement(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("acknowledgement"))
     
     
 

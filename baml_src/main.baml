@@ -75,6 +75,7 @@ class Response3 {
   extracted_fields ExtractedField[] @description("Array of all fields that need to be extracted from the user's answer. If a field is not found, put a null value for it and add it to the list")
   diagnostic_gap string @description("If diagnostic goal is not met, identify what is missing?")
   probe_question string @description("Based on the diagnostic gap, create a new question that needs to be asked to user.")
+  acknowledgement string @description("Acknowledgement for the user")
   
 }
 

@@ -48,13 +48,6 @@ QUESTIONS = [
     "diagnostic_goal": "Understand the user's motivation for improving spoken English",
     "expected_fields": ["ENGLISH_MOTIVATION", "PREACHING_BENEFIT"],
     "question1": "I want to ask why do you feel it is important for you to improve your spoken English? How will it help you in your preaching service?",
-  },
-  {
-    "id": "temple",
-    "diagnostic_goal": "Spatial Awareness; Adjectives/Location, Future Intent; Planning/Will",
-    "expected_fields": ["TEMPLE_DESCRIPTION", "ENTRANCE_VISUALS", "FUTURE_TEMPLE_PLAN"],
-    "question1": "Hare Krishna Prabhu, imagine I am a guest who has never seen the temple before. Can you tell me what the current temple building looks like? What is the first thing I will see when I walk in, prabhu?",
-    "question2": "May 2027 is coming soon! When the new temple is finished, what is the first thing you want to do there, prabhu?",
   }
 ]
 
@@ -106,6 +99,13 @@ class BamlStructuredAgent(Agent):
             expected_fields = current_question["expected_fields"]
             diagnostic_goal = current_question["diagnostic_goal"]
 
+            if not current_question_state["is_question_1_asked"]:
+                yield current_question["question1"]
+                current_question_state["is_question_1_asked"] = True
+                state_manager.set_state(current_question_id, current_question_state)
+                return
+                
+
             structured4 = await b.GetResponse4(chat_history=history_str, current_question=current_sub_question)
             if structured4.on_topic_status == "ON_TOPIC":
                 if structured4.turn_decision == "REPEAT_QUESTION":
@@ -116,20 +116,8 @@ class BamlStructuredAgent(Agent):
                     structured3 = await b.GetResponse3(chat_history=history_str, diagnostic_goal=diagnostic_goal, expected_fields=expected_fields, current_question=current_sub_question)
 
                     if structured3.is_diagnostic_goal_met:
-                        
-                        if current_question_state["current_sub_question"] == 1 and current_question_state["does_question_2_exist"]:
-                            
-                            state_manager.set_state(current_question_index, {"current_sub_question": 2, "is_question_1_answered": True, "does_question_2_exist": True, "is_question_2_answered": False})
-                            yield "Thank you Prabhu, let us move to a follow up question"
-                            if state_manager.get_state(current_question_index)["does_question_2_exist"]:
-                                yield current_question_state["question2"]
-                        elif current_question_state["current_sub_question"] == 2:
-                            
-                            state_manager.set_state(current_question_index, {"current_sub_question": None, "is_question_1_answered": True, "does_question_2_exist": True, "is_question_2_answered": True})
-                            
-                            self.complete_question(structured3.acknowledgement, current_question_index)
-
-                            yield "Thank you Prabhu, let us move to next question"
+                        self.complete_question(structured3.acknowledgement, current_question_index)
+                        yield "Thank you Prabhu, let me know when you want to move to next question"
 
                     else:
                         yield structured3.probe_question
@@ -169,7 +157,7 @@ async def entrypoint(ctx: JobContext):
         question_state = {
             "current_sub_question": 1,
             "is_question_1_answered": False, 
-            "does_question_2_exist": True if "question2" in question else False, "is_question_2_answered": False
+            "is_question_1_asked": False
         }
         if question_index == len(QUESTIONS) - 1:
             question_state["next_question_id"] = None

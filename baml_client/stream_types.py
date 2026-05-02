@@ -23,13 +23,19 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
 # #########################################################################
-# Generated classes (1)
+# Generated classes (2)
 # #########################################################################
 
 class Response(BaseModel):
     grammatical_errors_present: typing.Optional[bool] = Field(default=None, description='True if there are any grammatical errors in the transcript')
     corrected_transcript: typing.Optional[str] = Field(default=None, description='The corrected transcript of the user\'s speech')
     explanation_for_student: typing.Optional[str] = Field(default=None, description='The explanation for the student in a conversational tone')
+
+class Response2(BaseModel):
+    acknowledgement: typing.Optional[str] = Field(default=None, description='Say a small acknowledgement for the users input')
+    is_answer_satisfactory: typing.Optional[bool] = Field(default=None, description='Say whether the answer is correct or not')
+    evidence_for_satisfaction: typing.Optional[str] = Field(default=None, description='Provide evidence that user answer is satisfactory')
+    probe_question: typing.Optional[str] = Field(default=None, description='Provide a question for the user if answer is not satisfactory to probe them further. Only make this field non-empty if the answer is not satisfactory.')
 
 # #########################################################################
 # Generated type aliases (0)

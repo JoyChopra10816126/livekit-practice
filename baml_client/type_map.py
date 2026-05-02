@@ -19,5 +19,8 @@ type_map = {
     "types.Response": types.Response,
     "stream_types.Response": stream_types.Response,
 
+    "types.Response2": types.Response2,
+    "stream_types.Response2": stream_types.Response2,
+
 
 }

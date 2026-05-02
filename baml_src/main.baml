@@ -33,3 +33,29 @@ function GetResponse(chat_history: string) -> Response {
     Respond now following the Response schema.
   "#
 }
+
+class Response2 {
+  acknowledgement string @description("Say a small acknowledgement for the users input")
+  is_answer_satisfactory bool @description("Say whether the answer is correct or not")
+  evidence_for_satisfaction string @description("Provide evidence that user answer is satisfactory")
+  probe_question string @description("Provide a question for the user if answer is not satisfactory to probe them further. Only make this field non-empty if the answer is not satisfactory.")
+}
+
+function GetResponse2(chat_history: string) -> Response2 {
+  client OpenAIFast
+  prompt #"
+    {{ _.role("system") }}
+    You are a helpful and conversational assistant. This is a transcript from speech
+    so do not flag punctuation errors.
+
+    {{ _.role("user") }}
+    Conversation History:
+    ---
+    {{ chat_history }}
+    ---
+
+    {{ctx.output_format }}
+
+    Respond now following the Response schema.
+  "#
+}

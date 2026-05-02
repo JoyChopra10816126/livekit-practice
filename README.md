@@ -1,11 +1,13 @@
 # livekit-practice
 
-1. Text to Speech - Done - uv run python .\text_to_speech.py console
-2. Speech to Text - Done - uv run python .\speech_to_text.py console
-3. End of Turn - Done - uv run python .\end_of_turn.py console
-4. BAML replacing llm node - Done - uv run python .\baml_llm_node.py console
-5. Global state - Done - uv run python .\global_state.py console
-6. Store transcript locally - Done - uv run python .\store_transcript.py console
+1. Text to Speech - uv run python .\text_to_speech.py console
+2. Speech to Text - uv run python .\speech_to_text.py console
+3. End of Turn - uv run python .\end_of_turn.py console
+4. BAML replacing llm node - uv run python .\baml_llm_node.py console
+5. Global state - uv run python .\global_state.py console
+6. Store transcript - uv run python .\store_transcript.py console
+7. Call tool
+8. Question loop
 
 ## Commands
 

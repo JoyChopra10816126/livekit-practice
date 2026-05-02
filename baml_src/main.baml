@@ -14,7 +14,8 @@ function GetResponse(chat_history: string) -> Response {
   client OpenAIFast
   prompt #"
     {{ _.role("system") }}
-    You are a helpful and conversational assistant.
+    You are a helpful and conversational assistant. This is a transcript from speech
+    so do not flag punctuation errors.
 
     EXAMPLE:
     {

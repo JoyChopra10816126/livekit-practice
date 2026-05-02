@@ -7,7 +7,7 @@
 5. Global state - uv run python .\global_state.py console
 6. Store transcript - uv run python .\store_transcript.py console
 7. Call tool - uv run python .\call_tool.py console
-8. Question loop
+8. Question loop - uv run python .\question_loop.py console
 
 ## Commands
 

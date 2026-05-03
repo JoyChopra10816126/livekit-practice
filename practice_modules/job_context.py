@@ -1,6 +1,6 @@
 import logging
 from typing import AsyncGenerator
-from livekit.agents import Agent, AgentSession, JobContext, WorkerOptions, cli, inference, llm
+from livekit.agents import Agent, AgentSession, JobContext, WorkerOptions, cli, inference, llm, get_job_context
 from livekit.plugins import sarvam, silero
 from dotenv import load_dotenv
 
@@ -13,24 +13,6 @@ load_dotenv()
 
 logger = logging.getLogger("baml-agent")
 logger.setLevel(logging.INFO)
-
-class StateManager():
-
-    def __init__(self):
-        self.state = {}
-
-    def get_state(self, key):
-        return self.state.get(key)
-
-    def set_state(self, key, value):
-        self.state[key] = value
-
-    def print_state(self):
-        logger.info("Printing state:")
-        logger.info(self.state)
-
-
-state_manager = StateManager()
 
 
 class BamlStructuredAgent(Agent):
@@ -46,6 +28,9 @@ class BamlStructuredAgent(Agent):
         model_settings,
     ) -> AsyncGenerator[str, None]:
         """Override llm_node to use BAML for structured output."""
+
+        ctx = get_job_context()  
+        userdata = ctx.proc.userdata
         
         # 1. Prepare history for BAML
         history_str = ""
@@ -75,7 +60,9 @@ class BamlStructuredAgent(Agent):
             if structured.explanation_for_student:
                 yield str(structured.explanation_for_student)
 
-            errors = state_manager.get_state("errors")
+            if not "errors" in userdata:
+                userdata["errors"] = []
+            errors = userdata["errors"]
             if errors is None:
                 errors = []
             errors.append({
@@ -83,11 +70,9 @@ class BamlStructuredAgent(Agent):
                 "corrected_transcript": structured.corrected_transcript,
                 "explanation_for_student": structured.explanation_for_student
             })
-            state_manager.set_state("errors", errors)
-            state_manager.print_state()
+            userdata["errors"] = errors
+            logger.info(userdata)
 
-            yield("You can control what I say.")
-                    
         except Exception as e:
             logger.error(f"BAML call failed: {e}")
             yield "I'm sorry, I encountered an error processing that request."

@@ -28,10 +28,10 @@
   `lk agent deploy`
 
 6.Run 
-`uv run python .\conversation_flow.py console`
+`uv run python -m practice_modules.question_loop console`
 
 7.Dev server
-`uv run python .\conversation_flow.py dev`
+`uv run python -m practice_modules.question_loop dev`
 
 8. Realtime logs
 `lk agent logs`

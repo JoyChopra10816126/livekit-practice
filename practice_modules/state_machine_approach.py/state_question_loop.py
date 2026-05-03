@@ -25,8 +25,8 @@ class StateManager():
         logger.info("Printing state:")
         logger.info(self.state)
 
+global_state_manager = StateManager()
 
-state_manager = StateManager()
 
 QUESTIONS = [
   {
@@ -51,6 +51,7 @@ QUESTIONS = [
 
 logger = logging.getLogger("baml-agent")
 logger.setLevel(logging.INFO)
+question_state_machine = QuestionStateMachine()
 
 class BamlStructuredAgent(Agent):
     def __init__(self):
@@ -61,7 +62,7 @@ class BamlStructuredAgent(Agent):
     def complete_question(self, acknolwedgement, current_question_index):
         self.session.say(f"{acknolwedgement}")
         logger.info(f"Acknowledgement: {acknolwedgement}")
-        state_manager.set_state("current_question_index", current_question_index + 1)
+        global_state_manager.set_state("current_question_index", current_question_index + 1)
 
     async def llm_node(
         self,
@@ -71,8 +72,7 @@ class BamlStructuredAgent(Agent):
     ) -> AsyncGenerator[str, None]:
         """Override llm_node to use BAML for structured output."""
 
-        logger.info(f"\n\n{state_manager.print_state()}\n\n")
-        
+
         # 1. Prepare history for BAML
         history_str = ""
         for msg in chat_ctx.messages():
@@ -88,10 +88,12 @@ class BamlStructuredAgent(Agent):
             history_str += f"{role}: {content}\n"
 
         try:
-            current_question_index = state_manager.get_state("current_question_index")
+            yield from question_state_machine.process()
+
+            current_question_index = global_state_manager.get_state("current_question_index")
             current_question = QUESTIONS[current_question_index]
             current_question_id = current_question["id"]
-            current_question_state = state_manager.get_state(current_question_id)
+            current_question_state = global_state_manager.get_state(current_question_id)
 
             current_sub_question = current_question_state["current_sub_question"]
             expected_fields = current_question["expected_fields"]
@@ -100,7 +102,7 @@ class BamlStructuredAgent(Agent):
             if not current_question_state["is_question_1_asked"]:
                 yield current_question["question1"]
                 current_question_state["is_question_1_asked"] = True
-                state_manager.set_state(current_question_id, current_question_state)
+                global_state_manager.set_state(current_question_id, current_question_state)
                 return
                 
 
@@ -162,10 +164,10 @@ async def entrypoint(ctx: JobContext):
         else:
             question_state["next_question_id"] = QUESTIONS[question_index + 1]["id"]
 
-        state_manager.set_state(question["id"], question_state)
+        global_state_manager.set_state(question["id"], question_state)
         question_index += 1
         
-    state_manager.set_state("current_question_index", 0)
+    global_state_manager.set_state("current_question_index", 0)
 
     await session.start(agent=agent, room=ctx.room)
     await session.say("Hare Krishna Prabhu.")

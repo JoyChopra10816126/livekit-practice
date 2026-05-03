@@ -4,28 +4,15 @@ from livekit.agents import Agent, AgentSession, JobContext, WorkerOptions, cli, 
 from livekit.plugins import sarvam, silero
 from dotenv import load_dotenv
 
+from types import Question
+
+from assessment_state_machine import AssessmentStateMachine
+
 # Import the generated BAML client
 # Note: You must run `npx baml-cli generate` first
 from baml_client import b
 
 load_dotenv()
-
-class StateManager():
-
-    def __init__(self):
-        self.state = {}
-
-    def get_state(self, key):
-        return self.state.get(key)
-
-    def set_state(self, key, value):
-        self.state[key] = value
-
-    def print_state(self):
-        logger.info("Printing state:")
-        logger.info(self.state)
-
-global_state_manager = StateManager()
 
 
 QUESTIONS = [
@@ -33,25 +20,24 @@ QUESTIONS = [
     "id": "intro",
     "diagnostic_goal": "Collect the user's introduction",
     "expected_fields": ["USER_NAME", "USER_LOCATION", "CURRENT_SERVICE"],
-    "question1": "Hare Krishna! I am here to help you practice English so we can serve Srila Prabhupada and the mission together. To start, could you please introduce yourself? You can tell me your name, where you are from, and what service you currently do.",
+    "sub_question1": "Hare Krishna! I am here to help you practice English so we can serve Srila Prabhupada and the mission together. To start, could you please introduce yourself? You can tell me your name, where you are from, and what service you currently do.",
   },
   {
     "id": "history",
     "diagnostic_goal": "Understand how the user first came in contact\nwith the Hare Krishna movement",
     "expected_fields": ["CONTACT_STORY"],
-    "question1": "I am curious to know about your journey. How did you first come in contact with the Hare Krishna Movement or the temple? Please tell me that story.",
+    "sub_question1": "I am curious to know about your journey. How did you first come in contact with the Hare Krishna Movement or the temple? Please tell me that story.",
   },
   {
     "id": "purpose",
     "diagnostic_goal": "Understand the user's motivation for improving spoken English",
     "expected_fields": ["ENGLISH_MOTIVATION", "PREACHING_BENEFIT"],
-    "question1": "I want to ask why do you feel it is important for you to improve your spoken English? How will it help you in your preaching service?",
+    "sub_question1": "I want to ask why do you feel it is important for you to improve your spoken English? How will it help you in your preaching service?",
   }
 ]
 
 logger = logging.getLogger("baml-agent")
 logger.setLevel(logging.INFO)
-question_state_machine = QuestionStateMachine()
 
 class BamlStructuredAgent(Agent):
     def __init__(self):
@@ -72,7 +58,6 @@ class BamlStructuredAgent(Agent):
     ) -> AsyncGenerator[str, None]:
         """Override llm_node to use BAML for structured output."""
 
-
         # 1. Prepare history for BAML
         history_str = ""
         for msg in chat_ctx.messages():
@@ -88,7 +73,6 @@ class BamlStructuredAgent(Agent):
             history_str += f"{role}: {content}\n"
 
         try:
-            yield from question_state_machine.process()
 
             current_question_index = global_state_manager.get_state("current_question_index")
             current_question = QUESTIONS[current_question_index]
@@ -142,6 +126,7 @@ TTS_CONFIG = {
 
 async def entrypoint(ctx: JobContext):
     await ctx.connect()
+    userdata = ctx.proc.user_data
     
     agent = BamlStructuredAgent()
     
@@ -151,26 +136,15 @@ async def entrypoint(ctx: JobContext):
         llm=inference.LLM(model="openai/gpt-4o-mini"), 
         tts=sarvam.TTS(**TTS_CONFIG),
     )
-    question_index = 0
-    while question_index < len(QUESTIONS):
-        question = QUESTIONS[question_index]
-        question_state = {
-            "current_sub_question": 1,
-            "is_question_1_answered": False, 
-            "is_question_1_asked": False
-        }
-        if question_index == len(QUESTIONS) - 1:
-            question_state["next_question_id"] = None
-        else:
-            question_state["next_question_id"] = QUESTIONS[question_index + 1]["id"]
-
-        global_state_manager.set_state(question["id"], question_state)
-        question_index += 1
-        
-    global_state_manager.set_state("current_question_index", 0)
-
     await session.start(agent=agent, room=ctx.room)
     await session.say("Hare Krishna Prabhu.")
+
+    question_objects = []
+    for question in QUESTIONS:
+        question_objects.append(Question(question["id"], question["diagnostic_goal"], question["expected_fields"], question["sub_question1"], question["sub_question2"]))
+
+    assessment_state_machine = AssessmentStateMachine(question_objects)
+    userdata["assessment_state_machine"] = assessment_state_machine
         
 if __name__ == "__main__":
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint))

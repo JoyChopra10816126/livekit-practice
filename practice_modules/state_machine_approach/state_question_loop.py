@@ -77,14 +77,14 @@ class BamlStructuredAgent(Agent):
             userdata["chat_history"] = history_str
 
             assessment_state_machine = userdata["assessment_state_machine"]
-            await assessment_state_machine.process()
+            has_message_to_say = await assessment_state_machine.process()
             
-            if userdata["text_to_say"] != None:
-                text_to_say = userdata["text_to_say"]
-                userdata["text_to_say"] = None
-                yield f"{text_to_say}"
+            if has_message_to_say:
+                message_to_say = userdata["message_to_say"]
+                userdata["message_to_say"] = None
+                yield f"{message_to_say}"
         except Exception as e:
-            logger.error(f"BAML call failed: {e}")
+            logger.error(f"BAML call failed: {e}", exc_info=True)
             yield "I'm sorry, I encountered an error processing that request."
 
 STT_CONFIG = {

@@ -1,3 +1,4 @@
+from livekit.agents import get_job_context
 from .types import Question
 from .question_state_machine import QuestionStateMachine
 from .logger_utils import log_state_transition, log_action
@@ -23,8 +24,8 @@ class QuestionNode(Node):
 
     async def process(self):
         log_action("QuestionNode", f"Processing question {self.question.id}")
-        should_move_to_next_node = await self.question_state_machine.process()
-        return should_move_to_next_node
+        has_message_to_say, should_move_to_next_node = await self.question_state_machine.process()
+        return has_message_to_say, should_move_to_next_node
 
     def pretty_print(self):
         return f"QuestionNode(id={self.question.id})"
@@ -46,9 +47,13 @@ class AssessmentStateMachine():
         log_state_transition("AssessmentStateMachine", None, self.current_node, f"Starting assessment with question {self.current_question_index}")
     
     async def process(self):
-        should_move_to_next_node = await self.current_node.process()
-        if should_move_to_next_node:
-            self._move_to_next_node()
+        has_message_to_say = False
+        # Pause process if agent needs to say to user
+        while self.current_node is not None and not has_message_to_say:
+            has_message_to_say, should_move_to_next_node = await self.current_node.process()
+            if should_move_to_next_node:
+                self._move_to_next_node()    
+        return has_message_to_say        
 
     def _move_to_next_node(self):
         # Move to next question

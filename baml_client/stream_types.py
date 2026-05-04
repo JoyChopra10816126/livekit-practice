@@ -27,7 +27,7 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
 # #########################################################################
 
 class EvaluationLayerModel1(BaseModel):
-    on_topic_status: typing.Optional[types.ON_TOPIC_STATUS_1] = Field(default=None, description='Whether the user\'s answer is on topic or not')
+    on_topic_status: typing.Optional[types.ON_TOPIC_STATUS_1] = Field(default=None, description='Whether the user\'s answer is on topic or not. If it is a small greeting or acknowledgment, consider it on topic. If it is completely unrelated to the question we asked, consider it off topic.')
 
 class EvaluationLayerModel2(BaseModel):
     user_intent: typing.Optional[types.USER_INTENT] = Field(default=None, description='Whether the user wants to repeat the question, rephrase the question, or has provided a response')

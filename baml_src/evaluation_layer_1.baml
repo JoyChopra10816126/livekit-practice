@@ -4,7 +4,7 @@ enum ON_TOPIC_STATUS_1 {
 }
 
 class EvaluationLayerModel1 {
-  on_topic_status ON_TOPIC_STATUS_1 @description("Whether the user's answer is on topic or not")
+  on_topic_status ON_TOPIC_STATUS_1 @description("Whether the user's answer is on topic or not. If it is a small greeting or acknowledgment, consider it on topic. If it is completely unrelated to the question we asked, consider it off topic.")
 }
 
 function EvaluationLayer1(chat_history: string, current_question: string) -> EvaluationLayerModel1 {

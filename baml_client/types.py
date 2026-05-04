@@ -71,7 +71,7 @@ class USER_INTENT(str, Enum):
 # #########################################################################
 
 class EvaluationLayerModel1(BaseModel):
-    on_topic_status: ON_TOPIC_STATUS_1 = Field(description='Whether the user\'s answer is on topic or not')
+    on_topic_status: ON_TOPIC_STATUS_1 = Field(description='Whether the user\'s answer is on topic or not. If it is a small greeting or acknowledgment, consider it on topic. If it is completely unrelated to the question we asked, consider it off topic.')
 
 class EvaluationLayerModel2(BaseModel):
     user_intent: USER_INTENT = Field(description='Whether the user wants to repeat the question, rephrase the question, or has provided a response')

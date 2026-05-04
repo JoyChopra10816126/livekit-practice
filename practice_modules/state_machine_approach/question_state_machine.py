@@ -22,8 +22,8 @@ class SubQuestion1Node(SubQuestionNode):
 
     async def process(self):
         log_action("SubQuestion1Node", f"Processing sub-question 1: {self.current_sub_question.sub_question_text[:30]}...")
-        should_move_to_next_question = await self.sub_question_state_machine.process()
-        return should_move_to_next_question
+        has_message_to_say, should_move_to_next_question = await self.sub_question_state_machine.process()
+        return has_message_to_say, should_move_to_next_question
 
     def get_next_node(self):
         if self.next_sub_question is None:
@@ -38,8 +38,8 @@ class SubQuestion2Node(SubQuestionNode):
 
     async def process(self):
         log_action("SubQuestion2Node", f"Processing sub-question 2: {self.current_sub_question.sub_question_text[:30]}...")
-        should_move_to_next_question = await self.sub_question_state_machine.process()
-        return should_move_to_next_question
+        has_message_to_say, should_move_to_next_question = await self.sub_question_state_machine.process()
+        return has_message_to_say, should_move_to_next_question
 
     def get_next_node(self):
         return None
@@ -50,10 +50,14 @@ class QuestionStateMachine():
         log_state_transition("QuestionStateMachine", None, self.current_node, f"Starting question {question.id}")
     
     async def process(self):
-        should_move_to_next_node = await self.current_node.process()
-        if should_move_to_next_node:
-            return self.move_to_next_node()
-        return False
+        has_message_to_say = False
+        while self.current_node is not None and not has_message_to_say:
+            has_message_to_say, should_move_to_next_node = await self.current_node.process()
+            if should_move_to_next_node:
+                is_complete = self.move_to_next_node()
+                if is_complete:
+                    return True, True
+        return has_message_to_say, False
 
     def move_to_next_node(self):
         old_node = self.current_node

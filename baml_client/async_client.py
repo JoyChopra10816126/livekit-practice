@@ -82,6 +82,51 @@ class BamlAsyncClient:
     def parse_stream(self):
       return self.__llm_stream_parser
 
+    async def EvaluationLayer1(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.EvaluationLayerModel1:
+        # Check if on_tick is provided
+        if 'on_tick' in baml_options:
+            # Use streaming internally when on_tick is provided
+            __stream__ = self.stream.EvaluationLayer1(chat_history=chat_history,current_question=current_question,
+                baml_options=baml_options)
+            return await __stream__.get_final_response()
+        else:
+            # Original non-streaming code
+            __result__ = await self.__options.merge_options(baml_options).call_function_async(function_name="EvaluationLayer1", args={
+                "chat_history": chat_history,"current_question": current_question,
+            })
+            return typing.cast(types.EvaluationLayerModel1, __result__.cast_to(types, types, stream_types, False, __runtime__))
+    async def EvaluationLayer2(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.EvaluationLayerModel2:
+        # Check if on_tick is provided
+        if 'on_tick' in baml_options:
+            # Use streaming internally when on_tick is provided
+            __stream__ = self.stream.EvaluationLayer2(chat_history=chat_history,current_question=current_question,
+                baml_options=baml_options)
+            return await __stream__.get_final_response()
+        else:
+            # Original non-streaming code
+            __result__ = await self.__options.merge_options(baml_options).call_function_async(function_name="EvaluationLayer2", args={
+                "chat_history": chat_history,"current_question": current_question,
+            })
+            return typing.cast(types.EvaluationLayerModel2, __result__.cast_to(types, types, stream_types, False, __runtime__))
+    async def EvaluationLayer3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.EvaluationLayerModel3:
+        # Check if on_tick is provided
+        if 'on_tick' in baml_options:
+            # Use streaming internally when on_tick is provided
+            __stream__ = self.stream.EvaluationLayer3(chat_history=chat_history,diagnostic_goal=diagnostic_goal,expected_fields=expected_fields,current_question=current_question,
+                baml_options=baml_options)
+            return await __stream__.get_final_response()
+        else:
+            # Original non-streaming code
+            __result__ = await self.__options.merge_options(baml_options).call_function_async(function_name="EvaluationLayer3", args={
+                "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+            })
+            return typing.cast(types.EvaluationLayerModel3, __result__.cast_to(types, types, stream_types, False, __runtime__))
     async def GetResponse(self, chat_history: str,
         baml_options: BamlCallOptions = {},
     ) -> types.Response:
@@ -151,6 +196,42 @@ class BamlStreamClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
+    def EvaluationLayer1(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.EvaluationLayerModel1, types.EvaluationLayerModel1]:
+        __ctx__, __result__ = self.__options.merge_options(baml_options).create_async_stream(function_name="EvaluationLayer1", args={
+            "chat_history": chat_history,"current_question": current_question,
+        })
+        return baml_py.BamlStream[stream_types.EvaluationLayerModel1, types.EvaluationLayerModel1](
+          __result__,
+          lambda x: typing.cast(stream_types.EvaluationLayerModel1, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.EvaluationLayerModel1, x.cast_to(types, types, stream_types, False, __runtime__)),
+          __ctx__,
+        )
+    def EvaluationLayer2(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.EvaluationLayerModel2, types.EvaluationLayerModel2]:
+        __ctx__, __result__ = self.__options.merge_options(baml_options).create_async_stream(function_name="EvaluationLayer2", args={
+            "chat_history": chat_history,"current_question": current_question,
+        })
+        return baml_py.BamlStream[stream_types.EvaluationLayerModel2, types.EvaluationLayerModel2](
+          __result__,
+          lambda x: typing.cast(stream_types.EvaluationLayerModel2, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.EvaluationLayerModel2, x.cast_to(types, types, stream_types, False, __runtime__)),
+          __ctx__,
+        )
+    def EvaluationLayer3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.EvaluationLayerModel3, types.EvaluationLayerModel3]:
+        __ctx__, __result__ = self.__options.merge_options(baml_options).create_async_stream(function_name="EvaluationLayer3", args={
+            "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+        })
+        return baml_py.BamlStream[stream_types.EvaluationLayerModel3, types.EvaluationLayerModel3](
+          __result__,
+          lambda x: typing.cast(stream_types.EvaluationLayerModel3, x.cast_to(types, types, stream_types, True, __runtime__)),
+          lambda x: typing.cast(types.EvaluationLayerModel3, x.cast_to(types, types, stream_types, False, __runtime__)),
+          __ctx__,
+        )
     def GetResponse(self, chat_history: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.Response, types.Response]:
@@ -207,6 +288,27 @@ class BamlHttpRequestClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
+    async def EvaluationLayer1(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = await self.__options.merge_options(baml_options).create_http_request_async(function_name="EvaluationLayer1", args={
+            "chat_history": chat_history,"current_question": current_question,
+        }, mode="request")
+        return __result__
+    async def EvaluationLayer2(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = await self.__options.merge_options(baml_options).create_http_request_async(function_name="EvaluationLayer2", args={
+            "chat_history": chat_history,"current_question": current_question,
+        }, mode="request")
+        return __result__
+    async def EvaluationLayer3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = await self.__options.merge_options(baml_options).create_http_request_async(function_name="EvaluationLayer3", args={
+            "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+        }, mode="request")
+        return __result__
     async def GetResponse(self, chat_history: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
@@ -243,6 +345,27 @@ class BamlHttpStreamRequestClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
+    async def EvaluationLayer1(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = await self.__options.merge_options(baml_options).create_http_request_async(function_name="EvaluationLayer1", args={
+            "chat_history": chat_history,"current_question": current_question,
+        }, mode="stream")
+        return __result__
+    async def EvaluationLayer2(self, chat_history: str,current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = await self.__options.merge_options(baml_options).create_http_request_async(function_name="EvaluationLayer2", args={
+            "chat_history": chat_history,"current_question": current_question,
+        }, mode="stream")
+        return __result__
+    async def EvaluationLayer3(self, chat_history: str,diagnostic_goal: str,expected_fields: typing.List[str],current_question: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        __result__ = await self.__options.merge_options(baml_options).create_http_request_async(function_name="EvaluationLayer3", args={
+            "chat_history": chat_history,"diagnostic_goal": diagnostic_goal,"expected_fields": expected_fields,"current_question": current_question,
+        }, mode="stream")
+        return __result__
     async def GetResponse(self, chat_history: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:

@@ -1,6 +1,6 @@
 import logging
 from typing import AsyncGenerator
-from livekit.agents import Agent, AgentSession, JobContext, WorkerOptions, cli, inference, llm
+from livekit.agents import Agent, AgentSession, JobContext, WorkerOptions, cli, inference, llm, get_job_context
 from livekit.plugins import sarvam, silero
 from dotenv import load_dotenv
 
@@ -73,40 +73,17 @@ class BamlStructuredAgent(Agent):
             history_str += f"{role}: {content}\n"
 
         try:
+            ctx = get_job_context()
+            userdata = ctx.proc.userdata
+            userdata["chat_history"] = history_str
 
-            current_question_index = global_state_manager.get_state("current_question_index")
-            current_question = QUESTIONS[current_question_index]
-            current_question_id = current_question["id"]
-            current_question_state = global_state_manager.get_state(current_question_id)
-
-            current_sub_question = current_question_state["current_sub_question"]
-            expected_fields = current_question["expected_fields"]
-            diagnostic_goal = current_question["diagnostic_goal"]
-
-            if not current_question_state["is_question_1_asked"]:
-                yield current_question["question1"]
-                current_question_state["is_question_1_asked"] = True
-                global_state_manager.set_state(current_question_id, current_question_state)
-                return
-                
-
-            structured4 = await b.GetResponse4(chat_history=history_str, current_question=current_sub_question)
-            if structured4.on_topic_status == "ON_TOPIC":
-                if structured4.turn_decision == "REPEAT_QUESTION":
-                    yield current_question["question1"]
-                elif structured4.turn_decision == "PARAPHRASE_QUESTION":
-                    yield structured4.rephrased_question
-                elif structured4.turn_decision == "ANALYSE_RESPONSE":
-                    structured3 = await b.GetResponse3(chat_history=history_str, diagnostic_goal=diagnostic_goal, expected_fields=expected_fields, current_question=current_sub_question)
-
-                    if structured3.is_diagnostic_goal_met:
-                        self.complete_question(structured3.acknowledgement, current_question_index)
-                        yield "Thank you Prabhu, let me know when you want to move to next question"
-
-                    else:
-                        yield structured3.probe_question
-            else:
-                yield "Please focus on the assessment Prabhu."
+            assessment_state_machine = userdata["assessment_state_machine"]
+            assessment_state_machine.process()
+            
+            if userdata["text_to_say"] != None:
+                text_to_say = userdata["text_to_say"]
+                userdata["text_to_say"] = None
+                yield f"{text_to_say}"
         except Exception as e:
             logger.error(f"BAML call failed: {e}")
             yield "I'm sorry, I encountered an error processing that request."

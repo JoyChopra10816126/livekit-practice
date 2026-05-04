@@ -20,13 +20,13 @@ from .globals import DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIM
 class TypeBuilder(type_builder.TypeBuilder):
     def __init__(self):
         super().__init__(classes=set(
-          ["ExtractedField","Response","Response2","Response3","Response4",]
+          ["EvaluationLayerModel1","EvaluationLayerModel2","EvaluationLayerModel3","ExtractedField","ExtractedField1","Response","Response2","Response3","Response4",]
         ), enums=set(
-          ["DiagnosticGoalMetStatus","ON_TOPIC_STATUS","TURN_DECISION",]
+          ["DiagnosticGoalMetStatus","DiagnosticGoalMetStatus1","ON_TOPIC_STATUS","ON_TOPIC_STATUS_1","TURN_DECISION","USER_INTENT",]
         ), runtime=DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME)
 
     # #########################################################################
-    # Generated enums 3
+    # Generated enums 6
     # #########################################################################
 
     @property
@@ -34,21 +34,49 @@ class TypeBuilder(type_builder.TypeBuilder):
         return DiagnosticGoalMetStatusViewer(self)
 
     @property
+    def DiagnosticGoalMetStatus1(self) -> "DiagnosticGoalMetStatus1Viewer":
+        return DiagnosticGoalMetStatus1Viewer(self)
+
+    @property
     def ON_TOPIC_STATUS(self) -> "ON_TOPIC_STATUSViewer":
         return ON_TOPIC_STATUSViewer(self)
+
+    @property
+    def ON_TOPIC_STATUS_1(self) -> "ON_TOPIC_STATUS_1Viewer":
+        return ON_TOPIC_STATUS_1Viewer(self)
 
     @property
     def TURN_DECISION(self) -> "TURN_DECISIONViewer":
         return TURN_DECISIONViewer(self)
 
+    @property
+    def USER_INTENT(self) -> "USER_INTENTViewer":
+        return USER_INTENTViewer(self)
+
 
     # #########################################################################
-    # Generated classes 5
+    # Generated classes 9
     # #########################################################################
+
+    @property
+    def EvaluationLayerModel1(self) -> "EvaluationLayerModel1Viewer":
+        return EvaluationLayerModel1Viewer(self)
+
+    @property
+    def EvaluationLayerModel2(self) -> "EvaluationLayerModel2Viewer":
+        return EvaluationLayerModel2Viewer(self)
+
+    @property
+    def EvaluationLayerModel3(self) -> "EvaluationLayerModel3Viewer":
+        return EvaluationLayerModel3Viewer(self)
 
     @property
     def ExtractedField(self) -> "ExtractedFieldViewer":
         return ExtractedFieldViewer(self)
+
+    @property
+    def ExtractedField1(self) -> "ExtractedField1Viewer":
+        return ExtractedField1Viewer(self)
 
     @property
     def Response(self) -> "ResponseViewer":
@@ -69,7 +97,7 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
 # #########################################################################
-# Generated enums 3
+# Generated enums 6
 # #########################################################################
 
 class DiagnosticGoalMetStatusAst:
@@ -114,6 +142,48 @@ class DiagnosticGoalMetStatusValues:
     
 
 
+class DiagnosticGoalMetStatus1Ast:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.enum("DiagnosticGoalMetStatus1")
+        self._values: typing.Set[str] = set([  "YES",  "NO",  ])
+        self._vals = DiagnosticGoalMetStatus1Values(self._bldr, self._values)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def values(self) -> "DiagnosticGoalMetStatus1Values":
+        return self._vals
+
+
+class DiagnosticGoalMetStatus1Viewer(DiagnosticGoalMetStatus1Ast):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_values(self) -> typing.List[typing.Tuple[str, type_builder.EnumValueViewer]]:
+        return [(name, type_builder.EnumValueViewer(self._bldr.value(name))) for name in self._values]
+    
+
+class DiagnosticGoalMetStatus1Values:
+    def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
+        self.__bldr = enum_bldr
+        self.__values = values # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def YES(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("YES"))
+    
+    @property
+    def NO(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("NO"))
+    
+    
+
+
 class ON_TOPIC_STATUSAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb # type: ignore (we know how to use this private attribute)
@@ -139,6 +209,48 @@ class ON_TOPIC_STATUSViewer(ON_TOPIC_STATUSAst):
     
 
 class ON_TOPIC_STATUSValues:
+    def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
+        self.__bldr = enum_bldr
+        self.__values = values # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def ON_TOPIC(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("ON_TOPIC"))
+    
+    @property
+    def OFF_TOPIC(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("OFF_TOPIC"))
+    
+    
+
+
+class ON_TOPIC_STATUS_1Ast:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.enum("ON_TOPIC_STATUS_1")
+        self._values: typing.Set[str] = set([  "ON_TOPIC",  "OFF_TOPIC",  ])
+        self._vals = ON_TOPIC_STATUS_1Values(self._bldr, self._values)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def values(self) -> "ON_TOPIC_STATUS_1Values":
+        return self._vals
+
+
+class ON_TOPIC_STATUS_1Viewer(ON_TOPIC_STATUS_1Ast):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_values(self) -> typing.List[typing.Tuple[str, type_builder.EnumValueViewer]]:
+        return [(name, type_builder.EnumValueViewer(self._bldr.value(name))) for name in self._values]
+    
+
+class ON_TOPIC_STATUS_1Values:
     def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
         self.__bldr = enum_bldr
         self.__values = values # type: ignore (we know how to use this private attribute) # noqa: F821
@@ -202,10 +314,193 @@ class TURN_DECISIONValues:
     
 
 
+class USER_INTENTAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.enum("USER_INTENT")
+        self._values: typing.Set[str] = set([  "REPEAT_QUESTION",  "REPHRASE_QUESTION",  "PROVIDED_RESPONSE",  ])
+        self._vals = USER_INTENTValues(self._bldr, self._values)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def values(self) -> "USER_INTENTValues":
+        return self._vals
+
+
+class USER_INTENTViewer(USER_INTENTAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_values(self) -> typing.List[typing.Tuple[str, type_builder.EnumValueViewer]]:
+        return [(name, type_builder.EnumValueViewer(self._bldr.value(name))) for name in self._values]
+    
+
+class USER_INTENTValues:
+    def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
+        self.__bldr = enum_bldr
+        self.__values = values # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def REPEAT_QUESTION(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("REPEAT_QUESTION"))
+    
+    @property
+    def REPHRASE_QUESTION(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("REPHRASE_QUESTION"))
+    
+    @property
+    def PROVIDED_RESPONSE(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("PROVIDED_RESPONSE"))
+    
+    
+
+
 
 # #########################################################################
-# Generated classes 5
+# Generated classes 9
 # #########################################################################
+
+class EvaluationLayerModel1Ast:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("EvaluationLayerModel1")
+        self._properties: typing.Set[str] = set([  "on_topic_status",  ])
+        self._props = EvaluationLayerModel1Properties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "EvaluationLayerModel1Properties":
+        return self._props
+
+
+class EvaluationLayerModel1Viewer(EvaluationLayerModel1Ast):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class EvaluationLayerModel1Properties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def on_topic_status(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("on_topic_status"))
+    
+    
+
+
+class EvaluationLayerModel2Ast:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("EvaluationLayerModel2")
+        self._properties: typing.Set[str] = set([  "user_intent",  "rephrased_question",  ])
+        self._props = EvaluationLayerModel2Properties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "EvaluationLayerModel2Properties":
+        return self._props
+
+
+class EvaluationLayerModel2Viewer(EvaluationLayerModel2Ast):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class EvaluationLayerModel2Properties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def user_intent(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("user_intent"))
+    
+    @property
+    def rephrased_question(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("rephrased_question"))
+    
+    
+
+
+class EvaluationLayerModel3Ast:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("EvaluationLayerModel3")
+        self._properties: typing.Set[str] = set([  "is_diagnostic_goal_met",  "extracted_fields",  "diagnostic_gap",  "probe_question",  "acknowledgement",  ])
+        self._props = EvaluationLayerModel3Properties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "EvaluationLayerModel3Properties":
+        return self._props
+
+
+class EvaluationLayerModel3Viewer(EvaluationLayerModel3Ast):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class EvaluationLayerModel3Properties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def is_diagnostic_goal_met(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("is_diagnostic_goal_met"))
+    
+    @property
+    def extracted_fields(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("extracted_fields"))
+    
+    @property
+    def diagnostic_gap(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("diagnostic_gap"))
+    
+    @property
+    def probe_question(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("probe_question"))
+    
+    @property
+    def acknowledgement(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("acknowledgement"))
+    
+    
+
 
 class ExtractedFieldAst:
     def __init__(self, tb: type_builder.TypeBuilder):
@@ -233,6 +528,49 @@ class ExtractedFieldViewer(ExtractedFieldAst):
 
 
 class ExtractedFieldProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def field_name(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("field_name"))
+    
+    @property
+    def field_value(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("field_value"))
+    
+    
+
+
+class ExtractedField1Ast:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("ExtractedField1")
+        self._properties: typing.Set[str] = set([  "field_name",  "field_value",  ])
+        self._props = ExtractedField1Properties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "ExtractedField1Properties":
+        return self._props
+
+
+class ExtractedField1Viewer(ExtractedField1Ast):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class ExtractedField1Properties:
     def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
         self.__bldr = bldr
         self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821

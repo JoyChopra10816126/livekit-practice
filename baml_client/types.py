@@ -37,14 +37,22 @@ def get_checks(checks: typing.Dict[CheckName, Check]) -> typing.List[Check]:
 def all_succeeded(checks: typing.Dict[CheckName, Check]) -> bool:
     return all(check.status == "succeeded" for check in get_checks(checks))
 # #########################################################################
-# Generated enums (3)
+# Generated enums (6)
 # #########################################################################
 
 class DiagnosticGoalMetStatus(str, Enum):
     YES = "YES"
     NO = "NO"
 
+class DiagnosticGoalMetStatus1(str, Enum):
+    YES = "YES"
+    NO = "NO"
+
 class ON_TOPIC_STATUS(str, Enum):
+    ON_TOPIC = "ON_TOPIC"
+    OFF_TOPIC = "OFF_TOPIC"
+
+class ON_TOPIC_STATUS_1(str, Enum):
     ON_TOPIC = "ON_TOPIC"
     OFF_TOPIC = "OFF_TOPIC"
 
@@ -53,11 +61,34 @@ class TURN_DECISION(str, Enum):
     PARAPHRASE_QUESTION = "PARAPHRASE_QUESTION"
     ANALYSE_RESPONSE = "ANALYSE_RESPONSE"
 
+class USER_INTENT(str, Enum):
+    REPEAT_QUESTION = "REPEAT_QUESTION"
+    REPHRASE_QUESTION = "REPHRASE_QUESTION"
+    PROVIDED_RESPONSE = "PROVIDED_RESPONSE"
+
 # #########################################################################
-# Generated classes (5)
+# Generated classes (9)
 # #########################################################################
 
+class EvaluationLayerModel1(BaseModel):
+    on_topic_status: ON_TOPIC_STATUS_1 = Field(description='Whether the user\'s answer is on topic or not')
+
+class EvaluationLayerModel2(BaseModel):
+    user_intent: USER_INTENT = Field(description='Whether the user wants to repeat the question, rephrase the question, or has provided a response')
+    rephrased_question: str = Field(description='The rephrased question. Include it only if user did not understand the question. Otherwise return an empty string')
+
+class EvaluationLayerModel3(BaseModel):
+    is_diagnostic_goal_met: DiagnosticGoalMetStatus1 = Field(description='True if the user\'s answer meets the diagnostic goal for the current question')
+    extracted_fields: typing.List["ExtractedField1"] = Field(description='Array of all fields that need to be extracted from the user\'s answer. If a field is not found, put a null value for it and add it to the list')
+    diagnostic_gap: str = Field(description='If diagnostic goal is not met, identify what is missing?')
+    probe_question: str = Field(description='Based on the diagnostic gap, create a new question that needs to be asked to user.')
+    acknowledgement: str = Field(description='Acknowledgement for the user. Generate it to acknowledge user\'s response')
+
 class ExtractedField(BaseModel):
+    field_name: str = Field(description='The name of the field')
+    field_value: str = Field(description='The value of the field')
+
+class ExtractedField1(BaseModel):
     field_name: str = Field(description='The name of the field')
     field_value: str = Field(description='The value of the field')
 

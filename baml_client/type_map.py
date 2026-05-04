@@ -16,8 +16,20 @@ from . import stream_types
 
 type_map = {
 
+    "types.EvaluationLayerModel1": types.EvaluationLayerModel1,
+    "stream_types.EvaluationLayerModel1": stream_types.EvaluationLayerModel1,
+
+    "types.EvaluationLayerModel2": types.EvaluationLayerModel2,
+    "stream_types.EvaluationLayerModel2": stream_types.EvaluationLayerModel2,
+
+    "types.EvaluationLayerModel3": types.EvaluationLayerModel3,
+    "stream_types.EvaluationLayerModel3": stream_types.EvaluationLayerModel3,
+
     "types.ExtractedField": types.ExtractedField,
     "stream_types.ExtractedField": stream_types.ExtractedField,
+
+    "types.ExtractedField1": types.ExtractedField1,
+    "stream_types.ExtractedField1": stream_types.ExtractedField1,
 
     "types.Response": types.Response,
     "stream_types.Response": stream_types.Response,
@@ -34,8 +46,14 @@ type_map = {
 
     "types.DiagnosticGoalMetStatus": types.DiagnosticGoalMetStatus,
 
+    "types.DiagnosticGoalMetStatus1": types.DiagnosticGoalMetStatus1,
+
     "types.ON_TOPIC_STATUS": types.ON_TOPIC_STATUS,
 
+    "types.ON_TOPIC_STATUS_1": types.ON_TOPIC_STATUS_1,
+
     "types.TURN_DECISION": types.TURN_DECISION,
+
+    "types.USER_INTENT": types.USER_INTENT,
 
 }

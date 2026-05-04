@@ -23,6 +23,24 @@ class LlmResponseParser:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
+    def EvaluationLayer1(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.EvaluationLayerModel1:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="EvaluationLayer1", llm_response=llm_response, mode="request")
+        return typing.cast(types.EvaluationLayerModel1, __result__)
+
+    def EvaluationLayer2(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.EvaluationLayerModel2:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="EvaluationLayer2", llm_response=llm_response, mode="request")
+        return typing.cast(types.EvaluationLayerModel2, __result__)
+
+    def EvaluationLayer3(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> types.EvaluationLayerModel3:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="EvaluationLayer3", llm_response=llm_response, mode="request")
+        return typing.cast(types.EvaluationLayerModel3, __result__)
+
     def GetResponse(
         self, llm_response: str, baml_options: BamlCallOptions = {},
     ) -> types.Response:
@@ -54,6 +72,24 @@ class LlmStreamParser:
 
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
+
+    def EvaluationLayer1(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.EvaluationLayerModel1:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="EvaluationLayer1", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.EvaluationLayerModel1, __result__)
+
+    def EvaluationLayer2(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.EvaluationLayerModel2:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="EvaluationLayer2", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.EvaluationLayerModel2, __result__)
+
+    def EvaluationLayer3(
+        self, llm_response: str, baml_options: BamlCallOptions = {},
+    ) -> stream_types.EvaluationLayerModel3:
+        __result__ = self.__options.merge_options(baml_options).parse_response(function_name="EvaluationLayer3", llm_response=llm_response, mode="stream")
+        return typing.cast(stream_types.EvaluationLayerModel3, __result__)
 
     def GetResponse(
         self, llm_response: str, baml_options: BamlCallOptions = {},

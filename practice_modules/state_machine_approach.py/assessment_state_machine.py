@@ -1,5 +1,6 @@
 from types import Question
 from question_state_machine import QuestionStateMachine
+from logger_utils import log_state_transition, log_action
 
 class Node():
     def __init__(self):
@@ -11,14 +12,22 @@ class Node():
     def move_to_next_node(self):
         pass
 
+    def pretty_print(self):
+        return self.__class__.__name__
+
 class QuestionNode(Node):
     def __init__(self, question: Question):
+        # Create a state machine which will conduct the question
         self.question = question
         self.question_state_machine = QuestionStateMachine(question)
 
     def process(self):
+        log_action("QuestionNode", f"Processing question {self.question.id}")
         should_move_to_next_node = self.question_state_machine.process()
         return should_move_to_next_node
+
+    def pretty_print(self):
+        return f"QuestionNode(id={self.question.id})"
 
 class AssessmentStateMachine():
     def __init__(self, questions):
@@ -34,21 +43,25 @@ class AssessmentStateMachine():
         # Create first node
         question = self.questions[self.current_question_index]
         self.current_node = QuestionNode(question)
+        log_state_transition("AssessmentStateMachine", None, self.current_node, f"Starting assessment with question {self.current_question_index}")
     
     def process(self):
         should_move_to_next_node = self.current_node.process()
         if should_move_to_next_node:
-            self.move_to_next_node()
+            self._move_to_next_node()
 
-    def move_to_next_node(self):
+    def _move_to_next_node(self):
         # Move to next question
+        old_node = self.current_node
         self.current_question_index += 1
 
         # Create node for next question if exists
         if self.current_question_index < self.number_of_questions:
             question = self.questions[self.current_question_index]
             self.current_node = QuestionNode(question)
+            log_state_transition("AssessmentStateMachine", old_node, self.current_node, f"Moving to question {self.current_question_index}")
         # Else, end assessment
         else:
             self.current_node = None
+            log_state_transition("AssessmentStateMachine", old_node, None, "Assessment completed")
             print("Assessment completed!")

@@ -23,10 +23,28 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
 # #########################################################################
-# Generated classes (5)
+# Generated classes (9)
 # #########################################################################
 
+class EvaluationLayerModel1(BaseModel):
+    on_topic_status: typing.Optional[types.ON_TOPIC_STATUS_1] = Field(default=None, description='Whether the user\'s answer is on topic or not')
+
+class EvaluationLayerModel2(BaseModel):
+    user_intent: typing.Optional[types.USER_INTENT] = Field(default=None, description='Whether the user wants to repeat the question, rephrase the question, or has provided a response')
+    rephrased_question: typing.Optional[str] = Field(default=None, description='The rephrased question. Include it only if user did not understand the question. Otherwise return an empty string')
+
+class EvaluationLayerModel3(BaseModel):
+    is_diagnostic_goal_met: typing.Optional[types.DiagnosticGoalMetStatus1] = Field(default=None, description='True if the user\'s answer meets the diagnostic goal for the current question')
+    extracted_fields: typing.List["ExtractedField1"] = Field(description='Array of all fields that need to be extracted from the user\'s answer. If a field is not found, put a null value for it and add it to the list')
+    diagnostic_gap: typing.Optional[str] = Field(default=None, description='If diagnostic goal is not met, identify what is missing?')
+    probe_question: typing.Optional[str] = Field(default=None, description='Based on the diagnostic gap, create a new question that needs to be asked to user.')
+    acknowledgement: typing.Optional[str] = Field(default=None, description='Acknowledgement for the user. Generate it to acknowledge user\'s response')
+
 class ExtractedField(BaseModel):
+    field_name: typing.Optional[str] = Field(default=None, description='The name of the field')
+    field_value: typing.Optional[str] = Field(default=None, description='The value of the field')
+
+class ExtractedField1(BaseModel):
     field_name: typing.Optional[str] = Field(default=None, description='The name of the field')
     field_value: typing.Optional[str] = Field(default=None, description='The value of the field')
 

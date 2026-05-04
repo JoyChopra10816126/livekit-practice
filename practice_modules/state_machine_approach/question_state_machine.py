@@ -56,7 +56,7 @@ class QuestionStateMachine():
             if should_move_to_next_node:
                 is_complete = self.move_to_next_node()
                 if is_complete:
-                    return True, True
+                    return has_message_to_say, True
         return has_message_to_say, False
 
     def move_to_next_node(self):

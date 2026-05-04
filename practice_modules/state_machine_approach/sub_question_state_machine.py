@@ -23,10 +23,10 @@ class AskQuestionNode(Node):
     async def process(self, userdata):
         if self.follow_up_question:
             log_action("AskQuestionNode", f"Asking follow-up: {self.follow_up_question[:30]}...")
-            userdata["message_to_say"] = self.follow_up_question
+            userdata["messages_to_say"].append(self.follow_up_question)
         else:
             log_action("AskQuestionNode", f"Asking sub-question: {self.sub_question.sub_question_text[:30]}...")
-            userdata["message_to_say"] = self.sub_question.sub_question_text
+            userdata["messages_to_say"].append(self.sub_question.sub_question_text)
         return True, True
 
     def pretty_print(self):
@@ -95,8 +95,8 @@ class CompleteQuestionNode(Node):
 
     async def process(self, userdata):
         log_action("CompleteQuestionNode", f"Acknowledging: {self.acknolwedgement[:30]}...")
-        userdata["message_to_say"] = self.acknolwedgement
-        return True, True
+        userdata["messages_to_say"].append(self.acknolwedgement)
+        return False, True
 
     def get_next_node(self):
         return None

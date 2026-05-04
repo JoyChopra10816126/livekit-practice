@@ -80,9 +80,10 @@ class BamlStructuredAgent(Agent):
             has_message_to_say = await assessment_state_machine.process()
             
             if has_message_to_say:
-                message_to_say = userdata["message_to_say"]
-                userdata["message_to_say"] = None
-                yield f"{message_to_say}"
+                messages = userdata.get("messages_to_say", [])
+                combined_message = " ".join(messages)
+                userdata["messages_to_say"] = [] # Clear for next time
+                yield f"{combined_message}"
         except Exception as e:
             logger.error(f"BAML call failed: {e}", exc_info=True)
             yield "I'm sorry, I encountered an error processing that request."
@@ -127,6 +128,7 @@ async def entrypoint(ctx: JobContext):
 
     assessment_state_machine = AssessmentStateMachine(question_objects)
     userdata["assessment_state_machine"] = assessment_state_machine
+    userdata["messages_to_say"] = []
         
 if __name__ == "__main__":
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint))

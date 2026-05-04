@@ -38,3 +38,6 @@
 
 9. BAML client generate
 `uv run baml-cli generate`
+
+10. Three state machine approach
+`uv run python -m practice_modules.state_machine_approach.state_question_loop console`

@@ -4,9 +4,8 @@ from livekit.agents import Agent, AgentSession, JobContext, WorkerOptions, cli, 
 from livekit.plugins import sarvam, silero
 from dotenv import load_dotenv
 
-from types import Question
-
-from assessment_state_machine import AssessmentStateMachine
+from .types import Question, SubQuestion
+from .assessment_state_machine import AssessmentStateMachine
 
 # Import the generated BAML client
 # Note: You must run `npx baml-cli generate` first
@@ -78,7 +77,7 @@ class BamlStructuredAgent(Agent):
             userdata["chat_history"] = history_str
 
             assessment_state_machine = userdata["assessment_state_machine"]
-            assessment_state_machine.process()
+            await assessment_state_machine.process()
             
             if userdata["text_to_say"] != None:
                 text_to_say = userdata["text_to_say"]
@@ -103,7 +102,7 @@ TTS_CONFIG = {
 
 async def entrypoint(ctx: JobContext):
     await ctx.connect()
-    userdata = ctx.proc.user_data
+    userdata = ctx.proc.userdata
     
     agent = BamlStructuredAgent()
     
@@ -117,8 +116,14 @@ async def entrypoint(ctx: JobContext):
     await session.say("Hare Krishna Prabhu.")
 
     question_objects = []
-    for question in QUESTIONS:
-        question_objects.append(Question(question["id"], question["diagnostic_goal"], question["expected_fields"], question["sub_question1"], question["sub_question2"]))
+    for q in QUESTIONS:
+        sub_q1 = SubQuestion(q["sub_question1"], q["diagnostic_goal"], q["expected_fields"])
+        # Support optional sub_question2 if present in the data
+        sub_q2 = None
+        if "sub_question2" in q:
+            sub_q2 = SubQuestion(q["sub_question2"], q["diagnostic_goal"], q["expected_fields"])
+        
+        question_objects.append(Question(q["id"], sub_q1, sub_q2))
 
     assessment_state_machine = AssessmentStateMachine(question_objects)
     userdata["assessment_state_machine"] = assessment_state_machine

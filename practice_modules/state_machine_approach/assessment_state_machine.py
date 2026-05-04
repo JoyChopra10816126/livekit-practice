@@ -1,12 +1,12 @@
-from types import Question
-from question_state_machine import QuestionStateMachine
-from logger_utils import log_state_transition, log_action
+from .types import Question
+from .question_state_machine import QuestionStateMachine
+from .logger_utils import log_state_transition, log_action
 
 class Node():
     def __init__(self):
         pass
 
-    def process(self):
+    async def process(self):
         pass
 
     def move_to_next_node(self):
@@ -21,9 +21,9 @@ class QuestionNode(Node):
         self.question = question
         self.question_state_machine = QuestionStateMachine(question)
 
-    def process(self):
+    async def process(self):
         log_action("QuestionNode", f"Processing question {self.question.id}")
-        should_move_to_next_node = self.question_state_machine.process()
+        should_move_to_next_node = await self.question_state_machine.process()
         return should_move_to_next_node
 
     def pretty_print(self):
@@ -45,8 +45,8 @@ class AssessmentStateMachine():
         self.current_node = QuestionNode(question)
         log_state_transition("AssessmentStateMachine", None, self.current_node, f"Starting assessment with question {self.current_question_index}")
     
-    def process(self):
-        should_move_to_next_node = self.current_node.process()
+    async def process(self):
+        should_move_to_next_node = await self.current_node.process()
         if should_move_to_next_node:
             self._move_to_next_node()
 
